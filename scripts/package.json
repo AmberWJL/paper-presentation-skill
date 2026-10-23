@@ -1,0 +1,6 @@
+{
+  "name": "paper-presentation-scripts",
+  "private": true,
+  "description": "Node dependencies for deck_lib.js (run `npm install` here once)",
+  "dependencies": { "pptxgenjs": "^3.12.0", "jszip": "^3.10.1" }
+}

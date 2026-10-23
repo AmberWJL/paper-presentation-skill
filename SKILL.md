@@ -1,68 +1,158 @@
 ---
 name: paper-presentation
-description: Turn an academic paper (PDF or arXiv link) into a visual-first slide presentation plan for a course or reading-group talk — paper summary (main idea, methodology, findings, implications), a ≤20-slide outline with exactly one sentence per slide and no bullet points, a per-slide visual/diagram plan, an icon checklist, animation design, and image-generation prompts in the style of the user's reference deck. Use this whenever the user asks to present a paper, make slides from a paper, prepare a paper talk, review/summarize a paper for CS846/CS886 or any seminar, or asks for figure/icon prompts for a paper deck — even if they only say "read this paper and brainstorm slides".
+description: Turn an academic paper (PDF or arXiv link) into a visual-first seminar talk and build the .pptx — one sentence per slide, no bullets, icon rows instead of lists, Morph transitions between points, click-by-click entrance animations written into the file, native charts/tables, speaker notes. Three modes - presenter (walk the room through the paper), adversary (argue the reject case after the champions), balanced (champion and adversary on the same claims) - each with its own slide arc and analysis prompt. Use this whenever the user asks to present a paper, make slides from a paper, prepare a paper talk or reading-group/seminar deck (CS846, CS886 or any course), says they are the champion/adversary/critic/reviewer for a paper, or wants figure/icon prompts for a paper deck — even if they only say "read this paper and brainstorm slides" or "I'm presenting this next week". Not for reviewing a paper without slides (use paper-review) or for generic decks.
 ---
 
-# Paper → presentation plan
+# Paper → slide plan → built deck
 
-The user (a grad student presenting papers in seminar courses) wants slides that are almost entirely visual: one sentence per slide, no bullets, a diagram or icon composition on every slide, step-by-step animations, and icons they generate themselves and assemble in PowerPoint. The deliverable is a **plan they build from**, not a finished .pptx, unless they explicitly ask for the file.
+The user is a grad student presenting papers in seminar courses. They want decks that are almost entirely
+visual: one sentence per slide, no bullets anywhere, a diagram or icon composition on every slide, icons
+in a row where a list would be, a tracker that accumulates marks, Morph between points, and step-by-step
+animations. The deliverables are a **plan** (fixed nine-section Markdown) and a **built .pptx** that
+matches it, with placeholders where icons are not yet available.
 
-Work in stages and stop for approval between them — the user wants to see the outline before any visual work is spent on it.
+Work in stages and stop for approval at two gates: after the outline, and after the per-slide plan.
+
+## Setup (once per machine)
+
+```bash
+cd <this skill>/scripts && npm install          # pptxgenjs + jszip for deck_lib.js
+pip install pillow numpy                         # crop_sheet.py
+brew install --cask libreoffice                  # optional; best renderer for QA (Keynote/PowerPoint are fallbacks)
+```
+
+Run every build with `NODE_PATH=<this skill>/scripts/node_modules node build.js`.
+
+## Stage 0 — Mode
+
+Ask which role the user has unless the request says: **presenter**, **adversary**, or **balanced**. Read
+`references/modes.md`: it fixes the arc, slide budget, agenda icons, what the tracker counts, and the
+analysis prompt. For adversary and balanced modes build the claim ledger it describes before outlining;
+if the `paper-review` skill is available, run it first and lift its Champion/Adversary sections.
 
 ## Stage 1 — Read and summarize
 
-Read the whole PDF (use `pages` ranges; tables and figure captions matter most). Then give, in chat:
+Read the whole PDF (`pages` ranges; tables and figure captions matter most). Give, in chat: **main idea**
+(one paragraph), **methodology** (numbered pipeline with key parameters, datasets, baselines),
+**findings** (every headline number with its denominator and the table it comes from), **implications**
+(what changes, plus limitations the paper admits). Numbers in a table beat numbers in prose; they become
+stat callouts and charts later, so get them exactly right now.
 
-1. **Main idea** — the one-paragraph thesis: what problem, what insight, why prior work fails.
-2. **Methodology** — numbered pipeline/steps with the key parameters (e.g. M×P×N loops, k, thresholds), datasets, models, baselines.
-3. **Findings** — every headline number with its denominator (reproduced/fixed/accepted, ablation deltas, baseline comparison, survey stats). Pull exact figures from tables; these become stat callouts and charts later.
-4. **Implications** — what the result changes for practice and research, plus limitations/threats the paper admits.
+## Stage 2 — Outline (gate 1)
 
-Keep it tight; numbers in a table beat numbers in prose.
+Produce a table `# | Sentence | Visual | Badge`. Rules:
 
-## Stage 2 — Outline (show this first, then wait)
-
-Produce a table: `# | Sentence | Visual`. Rules that matter:
-
-- **≤20 slides**, one complete sentence per slide, no title-only fragments except slide 1. The sentence *is* the slide text; the visual carries everything else.
-- Arc: hook/definition → scale/why it matters → prior work fails → core diagnosis → running example → method steps (one slide each) → results (one chart per slide) → comparison → human/qualitative → takeaway that echoes an early slide.
-- Mark every slide that needs a figure with 🖼 and say in three words what kind (funnel, Venn, call chain, Goldilocks spectrum…).
-- Prefer visuals the user can **construct in PowerPoint from icons** (graphs from circles+arrows, funnels, pipelines, nested rings) over one-off generated images. Reserve generated images for hero illustrations (title, closing) and characters.
-- Reuse a **tracker motif**: a strip repeated across the method slides with the current stage highlighted, and checkmarks accumulating on the results slide. The user's template does this with "Threats to Validity".
-- **Research questions get their own slide and their own icons.** Place an RQ slide right before the results section: one icon per RQ in a row, short label beneath each. Every results slide then answers exactly one RQ (label it "RQn –" in the outline) and carries that RQ's icon as a top-right badge, brought in with the **Morph transition** (see Stage 3). The closing slide morphs all RQ icons back into a row with checkmarks. If the paper has no explicit RQs, derive 3–5 from the evaluation subsections and say so.
+- **≤20 slides** (mode budgets in modes.md), one complete sentence per slide; the sentence *is* the slide
+  text. No bullets, no title-only fragments except slide 1.
+- Follow the mode's arc. Every mode has an **agenda slide** (one icon per point in a row, short label
+  beneath) right after the title, and a **conclusion slide** where the same icons return carrying marks.
+  The agenda is the Morph source: on each content slide the current point's icon becomes a top-right
+  badge, the others shrink into a strip at the bottom, and covered points pick up ✓/✗.
+- Mark every slide that needs a figure with 🖼 and say in three words what kind.
+- Prefer visuals the user can build from icons and native shapes (icon rows, funnels, pipelines, jars,
+  stat callouts, native tables and bar charts). Reserve generated images for hero scenes, characters, and
+  symbolic icons.
+- Results/claims slides each answer exactly one RQ or point and carry its icon as the badge.
 
 End with: "Reply with changes (or 'go') and I'll write the per-slide visual, icon, and animation plan."
 
-## Stage 3 — Per-slide plan + icon checklist
+## Stage 3 — Per-slide plan and icon checklist (gate 2)
 
-If the user points at a reference deck (.pptx), inspect it first: unzip media, view a handful of images, dump slide text. Record the palette, illustration style (e.g. flat cartoon, thick outlines), recurring motifs, and layout (title position, slide number). Match it. See `references/visual-style.md` for the user's current house style; update that file if a new template shows a different one.
+If the user points at a reference deck (.pptx), inspect it first (unzip media, view a few images, dump
+text), record palette and style in `references/visual-style.md`, and match it. Otherwise use the house
+style there.
 
-For each slide write (use `references/slide-plan-template.md` as the format):
+Write the plan with `references/slide-plan-template.md`, **all nine numbered sections, those headings,
+that order**; write "none" under a section that does not apply. For each slide: sentence, main idea,
+visual composition (what sits left/centre/right, which numbers are 60–72 pt callouts, native chart vs
+shapes), icon slugs, **animation as a click sequence using only the effects the build can write**
+(Appear, Fade, Wipe from a side, Fly In from a side, Zoom, Pulse), and notes (talking line; in adversary
+and balanced modes also the likely rebuttal and your answer).
 
-- **Sentence** (unchanged from approved outline).
-- **Main idea** — what the audience must take from this slide in one line.
-- **Visual** — exact composition: what sits left/centre/right, which numbers appear as big stat callouts, which charts should be native PowerPoint charts (bar, donut) versus shapes (Venn, call graph, funnel).
-- **Icons** — list by slug from the shared icon set.
-- **Animation** — click-by-click sequence using PowerPoint effects by name (Fade, Wipe from bottom, Fly In, Grow & Turn, Wheel, Move Path, Pulse, Fill Color, Morph transition). Animation should *reveal the mechanism* (nodes selected one level at a time, unexecuted nodes fading out, red flask turning green), not decorate.
+Asset strategy: aim for **15–20 generated images**, shared across slides, listed in a reuse table.
+Everything geometric is a native shape. Image prompts (section 8): two shared style suffixes, one subject
+line per slug, "no text, no letters", and the instruction to generate **one sheet in reading order** so
+`crop_sheet.py` can split it.
 
-**RQ icons and Morph.** Give each RQ a distinct, meaning-bearing icon slug (`rq-target` for effectiveness, `rq-puzzle` for ablation, `rq-podium` for baseline comparison, `rq-swap` for model sensitivity, `rq-people` for user studies — invent others as needed). In the plan, state that the RQ slide is the Morph source: the user duplicates it for each results slide, drags the answering RQ's icon to the badge position, deletes the rest, and sets Transition → Morph. Morph only animates motion when the object is the same picture with the same name across slides, so say that explicitly in a "Morph setup notes" section. When consecutive slides answer the same RQ, the badge stays put; when the RQ changes, describe the swap (old badge fades back, new one rises).
+Save as `<PaperShortName>_slide_plan.md` in the working directory and summarize in chat. End with:
+"Reply with changes (or 'go') and I'll build the deck."
 
-Then an **asset strategy** section with a small reusable set — aim for **15–20 generated images**, not one per slide. Generate only what PowerPoint shapes cannot do: characters, a hero scene, one robot/mascot, and a handful of symbolic icons (flask, compass, magnifier, puzzle…). Everything geometric is a native shape (circles for graph nodes, arrows, lightning, trapezoid funnels, rings, stars, tables, octagons, pills, ✓/✗) so it is recolorable and animatable per element. Derive variants by overlay instead of new images (blindfold rectangle on the robot, star shapes for dizzy, thought-bubble shape, tool icon placed beside the hand, one-tone recolor for silhouettes, duplicate-and-offset for stacks, scale-down for snippets). Present it as a table: slug, what, slides reused on — the reuse column is the check that the set is actually small and shared.
+## Stage 4 — Build the deck (after gate 2)
 
-Save the whole plan as `<PaperShortName>_slide_plan.md` in the working directory, **using exactly the eight numbered sections of `references/slide-plan-template.md`** in that order with those headings (Paper summary · Outline · Asset strategy · Recurring motifs · Slides · Morph setup notes · Native charts · Image-generation prompts). The fixed structure is what lets the user compare plans across papers and reuse icon sets; do not merge, rename, or drop sections — write "none" under a section that does not apply. Stage 1 fills section 1, Stage 2 fills section 2, Stage 3 fills 3–7, Stage 4 fills 8. Summarize in chat.
+1. **Write `build.js`** next to the plan, using `scripts/deck_lib.js`. Start from
+   `examples/firstpatch-adversary/build.js`; keep one block per slide in plan order. The library gives you
+   layouts (`TITLE`, `CONTENT`, `DIVIDER`), `title`, `label`, `big` (stat callout), `box`, `textBox`,
+   `arrow`, `line`, `img` (picture if the slug is in the assets manifest, else a labelled dashed
+   placeholder), `table` with `hdr/ok/bad/ns` cells, `barChart` with house defaults, `note`, and the
+   agenda pattern: `setPoints([...])`, `agendaRow(s)`, `tracker(s, idx)`, `agendaRow(s, {marks:true})`.
+   Every helper returns the object's name; pass those names to `d.anim(s, clicks)` where `clicks` is a
+   list of clicks and each click a list of `[name, effect, direction?]`. Point icons keep the same name
+   on every slide, which is what makes Morph move them. Finish with
+   `d.finalize({ morph: [content slides], fade: [agenda slide] })`.
+2. **Build**, then **post-process**: `python3 scripts/postprocess.py Deck.pptx --plan Deck.plan.json -o Deck.final.pptx`
+   writes the transitions and the entrance animations into the slide XML.
+3. **Validate** with the pptx skill's validator if present (`scripts/office/validate.py`); fix in the
+   generator, never by hand-editing XML.
+4. **Render and look at every slide**: `scripts/render.sh Deck.final.pptx qa1` (use a new prefix on every
+   re-render; image viewers cache by filename). Check text overflow and cut-offs first, then overlaps,
+   collisions between labels and icons, labels running past the slide edge, mid-word wraps in table
+   headers, rounded chart labels. Fix, re-render only what changed, stop.
+5. **Deliver**: the `.final.pptx`, the plan with section 9 (build log) filled in, and a short note on what
+   is still a placeholder.
 
-## Stage 4 — Image prompts (append to the plan)
+Speaker notes carry the talking line, the click sequence in words, and (adversary/balanced) the rebuttal
+pre-emptions. Per-object animations are written into the file but PowerPoint lets the user retime them.
 
-Append an "Image-generation prompts" section to the plan file. Define two shared style suffixes once (one for icons, one for characters/hero scenes) carrying the style words and palette hex codes, then write one short subject line per icon and reference the suffix — this keeps 50+ prompts readable and consistent. Group prompts by family (RQ icons, characters, robot variants, tests, code, graph, process, categories, survey). Say "no text, no letters" since numbers and labels are added in PowerPoint. Add batch tips: same seed/style reference across the session, generate the base character/robot first and reuse it as a reference for variants, request transparent PNG. If an image-generation tool is available (e.g. a `paper-illustration` skill or codex image tool), offer to run it.
+## Stage 5 — Icons
 
-## Stage 5 — Build the deck (only if asked)
+**Default: placeholders.** Every `img()` whose slug is not in the manifest renders as a dashed box
+labelled with the slug, so the deck is complete and presentable before any artwork exists.
 
-If the user wants the .pptx, use the pptx skill: duplicate layouts from their template, one text box for the sentence, insert icon PNGs, native charts for numeric results, and set animations via XML only if they ask (otherwise note "add animations per plan"). Run the pptx QA (validate + render) before handing over.
+**Generate only when an image-generation tool is available in the session (for example a
+`paper-illustration` skill) or the user asks for it.** Then generate the sheet from section 8, crop it,
+and rebuild. Otherwise hand the user section 8 and ask for one sheet.
+
+When a sheet arrives:
+```bash
+python3 scripts/crop_sheet.py sheet.png assets/                       # segments; prints block count and an indexed _contact.jpg
+python3 scripts/crop_sheet.py sheet.png assets/ --names a,b,c,...      # name blocks in reading order
+       [--split IDX:X] [--combine i,j=slug] [--keep-bg hero-slug] [--min-gap 8]
+```
+Look at `_contact.jpg` to map indices to slugs; use `--split` when two icons touched, `--combine` to also
+save a pair as one asset (two jars → one "internal validity" icon), `--keep-bg` for scenes that should
+stay on white. Then `node build.js --assets assets/manifest.json`, post-process, re-render, and tell the
+user which slugs are still placeholders and what else they could generate.
+
+## Rules that keep decks consistent
+
+- One sentence per slide, ≥26 pt, top-left; nothing else textual except short labels inside visuals.
+- Never a bullet list; a list becomes an icon row, a table, or a pipeline.
+- Big numbers are 60–72 pt callouts with a 12 pt label and the paper's table named.
+- Agenda and conclusion are the same icon row; the conclusion adds the marks.
+- Replacement pictures must keep the Selection Pane name of the placeholder they replace, or Morph fades
+  instead of moving.
+- Adversary mode: concession first, one slide per weakness with claim + evidence + why on the same slide,
+  what-survives vs what-falls, decisive experiment, verdict. Rebuttals in notes.
+- Balanced mode: champion and adversary examine the same claims with the same number of slides.
 
 ## Things learned from past sessions
 
-- Show the outline **before** icon/visual work; the user wants to edit it first.
-- The user builds diagrams themselves from icons, so prefer icon *sets* over bespoke figure images.
-- No bullet points anywhere on slides; the chat deliverable can use tables.
-- Big numbers go in stat callouts (60–72 pt) with a small label, one per concept.
-- Always extract the paper's own figure numbers (Venn overlaps, ablation counts) so charts are faithful.
+- Show the outline before any visual work; the user edits it first.
+- The user builds and regenerates icons themselves; prefer icon *sets* over bespoke figure images, and ask
+  for one sheet, not one file per icon.
+- Keynote renders a deck anywhere on a Mac but **drops native charts** on import; say so in the build log
+  and verify charts from the XML or in PowerPoint. PowerPoint's AppleScript export can hang on a dialog;
+  render.sh kills it after the timeout. LibreOffice is the faithful renderer if installed.
+- zsh aborts a whole command line on an unmatched glob; render.sh sets `nullglob`.
+- Re-render under a new filename prefix each time; cached images made a fixed deck look unfixed.
+- Sentences that quote numbers must be re-checked against the table they cite before the build (a
+  "strongest predictor in every model" became "in three of five" on inspection).
+- Adversary talks land better when the first content slide concedes what holds and the last names the
+  experiment that would change your mind.
+
+## Reference files
+
+- `references/modes.md` — arcs, budgets, agenda icons, and analysis prompts per mode
+- `references/slide-plan-template.md` — the nine-section plan format
+- `references/visual-style.md` — palette, typography, motifs (edit when a new template appears)
+- `examples/firstpatch-adversary/` — complete adversary deck: build.js, plan, icon sheet, cropped assets

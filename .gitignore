@@ -1,0 +1,7 @@
+node_modules/
+*.pyc
+__pycache__/
+examples/**/*.pptx
+examples/**/*.pdf
+examples/**/qa*-*.jpg
+examples/**/*.plan.json
