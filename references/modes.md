@@ -1,24 +1,33 @@
 # Presentation modes
 
-Ask which role the user has before Stage 1 unless the request already says ("I'm the adversary", "I'm
-presenting the paper", "balanced review"). The mode fixes the slide arc, the agenda icons, what the
-tracker counts, and how the paper is analysed. Everything else in SKILL.md (one sentence per slide, no
-bullets, icon rows instead of lists, Morph between points) applies to all three.
+Ask which role the user has before Stage 1 unless the request already says ("I'm the champion",
+"I'm the adversary", "I'm presenting the paper"). The mode fixes the slide arc, the agenda icons, what
+the tracker counts, and how the paper is analysed. Everything else in SKILL.md (one sentence per slide,
+no bullets, icon rows instead of lists, Morph between points) applies to all three.
 
-| | Presenter | Adversary | Balanced |
+| | Champion | Adversary | Presenter |
 |---|---|---|---|
+| Job | make the case for the paper | make the case against it | teach the paper, then say how far to trust it |
 | Audience already knows the paper? | No | Yes (champions went first) | No |
-| Slide budget | 14–20 | 8–10 | 12–16 |
-| Agenda icons | the paper's RQs | what holds · 2–3 threats · what would change my mind | overview · champion · adversary · verdict |
-| Tracker counts | RQs answered (✓) | threats landed (✗) | both sides heard (✓ then ✗) |
-| Analysis needed | summary only | claim ledger, adversary side | claim ledger, both sides |
+| Slide budget | 14–18 | 8–10 | 16–20 |
+| Agenda icons | the paper's RQs or claims | what holds · 2–3 threats · what would change my mind | the paper's RQs or claims + one *threats* icon |
+| Tracker counts | RQs answered (✓) | threats landed (✗) | RQs answered (✓), then threats raised (!) |
+| Analysis needed | summary + strongest evidence | claim ledger, adversary side | summary + claim ledger, top 2–3 threats |
 
-## Presenter (the original mode)
+## Champion
 
 Arc: hook/definition → scale/why it matters → prior work fails → core diagnosis → running example →
-method steps (one slide each, tracker strip highlighting the stage) → RQ slide → results (one chart per
-slide, one RQ each, RQ icon as Morph badge) → comparison → human/qualitative → takeaway that echoes an
-early slide. Derive 3–5 RQs from the evaluation subsections if the paper has none, and say so.
+method steps (one slide each, tracker strip highlighting the stage) → RQ slide (one icon per RQ, Morph
+source) → results (one chart per slide, one RQ each, RQ icon as badge, ✓ lands) → comparison with the
+strongest baseline → human/qualitative evidence → implication → takeaway that echoes an early slide.
+
+The champion steelmans. Lead with the strongest experimental result, the most important baseline
+comparison, and the most informative ablation; say why the method could work (intuition) before how it
+works (technical). Derive 3–5 RQs from the evaluation subsections if the paper has none, and say so.
+Known limitations go in speaker notes as answers to likely questions, not on slides.
+
+Analysis prompt (internal): for each central claim record the evidence (table/figure), the strongest
+favourable reading, and the paper's own number for it. Verify every superlative row by row.
 
 ## Adversary
 
@@ -39,7 +48,7 @@ Arc (9 slides is the sweet spot):
 9. **Conclusion**: the agenda icons return with marks (✓ for what holds, ✗ per threat, → for the
    experiment) and the verdict sentence, usually "reject as written, accept reframed as …".
 
-Analysis prompt (do this before the outline; keep it internal):
+Analysis prompt (internal, before the outline):
 - List the paper's 2–4 central claims as stated in the title, abstract, and conclusion.
 - For each: evidence the paper gives (table/figure/section), the assumption that bridges evidence to
   claim, and the simplest alternative explanation.
@@ -54,36 +63,29 @@ Analysis prompt (do this before the outline; keep it internal):
 If the `paper-review` skill is available, run it first: its Adversary section and "what experiment
 would change my mind" map directly onto slides 4–8.
 
-## Balanced (both sides)
+## Presenter
 
-For a seminar where one person presents the paper and its critique. The deck must be fair: the champion
-and adversary sections analyse the *same* claims and evidence and get comparable time.
+Everything the champion deck has, then a short, fair critique before the takeaway. The audience leaves
+knowing the paper *and* how much to trust it. This is the default when the user just says "present this
+paper".
 
-Arc (12–16 slides):
-1. Title.
-2. Agenda icon row: *overview*, *champion*, *adversary*, *verdict* (Morph source).
-3–5. **Overview**: problem and why it matters; method as a pipeline (tracker strip); headline result
-   with its number and location. Three slides, no more; this is context, not the talk.
-6. **RQ / claims slide**: one icon per central claim (2–4), labelled. These icons badge both the champion
-   and adversary slides, so the audience sees the same claim examined twice.
-7–9. **Champion**: strongest result, most important comparison or ablation, main implication. One claim
-   per slide, badge = that claim's icon, mark ✓.
-10–12. **Adversary**: for the same claims, the strongest fair objection with evidence and severity. Badge
-   = the same claim icon, mark ✗ or ~ (narrowed). Same number of slides as the champion section.
-13. **Core disagreement**: one sentence naming the bridging assumption the two sides read differently.
-14. **Verdict**: the claim icons return with ✓ / ~ / ✗, a verdict word (strong accept … strong reject)
-   and a confidence word, plus the one question to keep in mind while reading.
-15. (optional) Decisive experiment.
+Arc: the champion arc through the results and comparison, trimmed by two or three slides to make room,
+then:
+- **Threats slide**: the tracker gains a *threats* icon (the last agenda point); one sentence framing
+  "what would a careful reviewer push on".
+- **2–3 weakness slides**, one per threat, each with the claim it touches, the evidence from the paper,
+  and what would resolve it. Mark with ! rather than ✗: these are caveats the room should hold, not a
+  reject case. Pick the threats that touch a central claim; skip anything cosmetic.
+- **Takeaway** that weighs both: what to take from the paper and the one question to keep in mind.
+  The agenda row returns with ✓ on the RQs and ! on threats.
 
 Analysis prompt (internal, before the outline):
-- Build the same claim ledger as the adversary mode: claim, evidence, bridging assumption.
-- For each claim write two readings: the most favourable fair interpretation (champion) and the
-  strongest fair objection (adversary), each grounded in a specific table, figure, or section.
-- Decide per claim: supported / narrower than stated / unsupported. The verdict follows from the central
-  claim's status, not from counting objections.
-- Do not manufacture criticism to balance a strong paper, and do not soften a fatal flaw to balance a
-  weak one. Symmetry of attention, not of verdict.
-- Speaker notes on each champion slide carry the adversary's reply, and vice versa, so the presenter
-  can field questions from either side.
-If the `paper-review` skill is available, run it first: its four sections (Overview, Champion,
-Adversary, Final Synthesis) are the four agenda points of this mode.
+- Do the champion analysis in full.
+- Build the adversary claim ledger for the 2–3 central claims only, and keep the top 2–3 threats by
+  severity (major first). Phrase each as a caveat with a resolution, not a verdict.
+- Speaker notes on each weakness slide carry the champion's reply, so the presenter can defend the paper
+  when asked; notes on the results slides carry the caveat that applies, so the two halves stay linked.
+- Do not manufacture criticism for a strong paper (one slide saying "the main open question is …" is
+  enough), and do not soften a fatal flaw for a weak one (say it, mark it !, and say what would fix it).
+If the `paper-review` skill is available, run it first: Overview and Champion feed the first half,
+the Adversary section's top items feed the weakness slides, and "one question to keep in mind" closes.

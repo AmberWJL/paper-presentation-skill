@@ -1,6 +1,6 @@
 ---
 name: paper-presentation
-description: Turn an academic paper (PDF or arXiv link) into a visual-first seminar talk and build the .pptx — one sentence per slide, no bullets, icon rows instead of lists, Morph transitions between points, click-by-click entrance animations written into the file, native charts/tables, speaker notes. Three modes - presenter (walk the room through the paper), adversary (argue the reject case after the champions), balanced (champion and adversary on the same claims) - each with its own slide arc and analysis prompt. Use this whenever the user asks to present a paper, make slides from a paper, prepare a paper talk or reading-group/seminar deck for any course, says they are the champion/adversary/critic/reviewer for a paper, or wants figure/icon prompts for a paper deck — even if they only say "read this paper and brainstorm slides" or "I'm presenting this next week". Not for reviewing a paper without slides (use paper-review) or for generic decks.
+description: Turn an academic paper (PDF or arXiv link) into a visual-first seminar talk and build the .pptx — one sentence per slide, no bullets, icon rows instead of lists, Morph transitions between points, click-by-click entrance animations written into the file, native charts/tables, speaker notes. Three modes - champion (make the case for the paper), adversary (argue the reject case after the champions), presenter (the champion deck plus a short, fair critique; the default) - each with its own slide arc and analysis prompt. Use this whenever the user asks to present a paper, make slides from a paper, prepare a paper talk or reading-group/seminar deck for any course, says they are the champion/adversary/critic/reviewer for a paper, or wants figure/icon prompts for a paper deck — even if they only say "read this paper and brainstorm slides" or "I'm presenting this next week". Not for reviewing a paper without slides (use paper-review) or for generic decks.
 ---
 
 # Paper → slide plan → built deck
@@ -25,10 +25,11 @@ Run every build with `NODE_PATH=<this skill>/scripts/node_modules node build.js`
 
 ## Stage 0 — Mode
 
-Ask which role the user has unless the request says: **presenter**, **adversary**, or **balanced**. Read
-`references/modes.md`: it fixes the arc, slide budget, agenda icons, what the tracker counts, and the
-analysis prompt. For adversary and balanced modes build the claim ledger it describes before outlining;
-if the `paper-review` skill is available, run it first and lift its Champion/Adversary sections.
+Ask which role the user has unless the request says: **champion**, **adversary**, or **presenter**
+(the default when they just say "present this paper"). Read `references/modes.md`: it fixes the arc,
+slide budget, agenda icons, what the tracker counts, and the analysis prompt. For adversary and presenter
+modes build the claim ledger it describes before outlining; if the `paper-review` skill is available, run
+it first and lift its Champion/Adversary sections.
 
 ## Stage 1 — Read and summarize
 
@@ -67,7 +68,7 @@ that order**; write "none" under a section that does not apply. For each slide: 
 visual composition (what sits left/centre/right, which numbers are 60–72 pt callouts, native chart vs
 shapes), icon slugs, **animation as a click sequence using only the effects the build can write**
 (Appear, Fade, Wipe from a side, Fly In from a side, Zoom, Pulse), and notes (talking line; in adversary
-and balanced modes also the likely rebuttal and your answer).
+and presenter modes also the likely rebuttal and your answer).
 
 Asset strategy: aim for **15–20 generated images**, shared across slides, listed in a reuse table.
 Everything geometric is a native shape. Image prompts (section 8): two shared style suffixes, one subject
@@ -100,7 +101,7 @@ Save as `<PaperShortName>_slide_plan.md` in the working directory and summarize 
 5. **Deliver**: the `.final.pptx`, the plan with section 9 (build log) filled in, and a short note on what
    is still a placeholder.
 
-Speaker notes carry the talking line, the click sequence in words, and (adversary/balanced) the rebuttal
+Speaker notes carry the talking line, the click sequence in words, and (adversary/presenter) the rebuttal
 pre-emptions. Per-object animations are written into the file but PowerPoint lets the user retime them.
 
 ## Stage 5 — Icons
@@ -133,7 +134,8 @@ user which slugs are still placeholders and what else they could generate.
   instead of moving.
 - Adversary mode: concession first, one slide per weakness with claim + evidence + why on the same slide,
   what-survives vs what-falls, decisive experiment, verdict. Rebuttals in notes.
-- Balanced mode: champion and adversary examine the same claims with the same number of slides.
+- Presenter mode: the champion deck plus two or three weakness slides marked ! (caveats with a resolution),
+  never a reject case; a strong paper gets one open-question slide instead.
 
 ## Things learned from past sessions
 

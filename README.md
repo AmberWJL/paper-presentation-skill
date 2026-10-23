@@ -9,9 +9,9 @@ and tables, and speaker notes.
 
 | Mode | When | Arc |
 |---|---|---|
-| **presenter** | you present the paper | hook → why it matters → prior work → method (tracker strip) → RQs → results → takeaway |
+| **champion** | you make the case for the paper | hook → why it matters → prior work → method (tracker strip) → RQs → results → comparison → takeaway |
 | **adversary** | the champions went first, you argue the reject case | concession → one slide per weakness → decisive experiment → verdict |
-| **balanced** | you present and review | overview → claims → champion → adversary (same claims) → core disagreement → verdict |
+| **presenter** (default) | you teach the paper and say how far to trust it | the champion arc → threats slide → 2–3 weakness slides marked ! → takeaway weighing both |
 
 Details and the analysis prompts are in `references/modes.md`.
 
@@ -43,7 +43,7 @@ Then ask Claude Code to "present this paper", "I'm the adversary for this paper"
 paper-presentation/
 ├── SKILL.md                         workflow, rules, QA
 ├── references/
-│   ├── modes.md                     presenter / adversary / balanced arcs and analysis prompts
+│   ├── modes.md                     champion / adversary / presenter arcs and analysis prompts
 │   ├── slide-plan-template.md       the fixed nine-section plan format
 │   └── visual-style.md              house style (palette, typography, motifs) — edit for your deck
 ├── scripts/

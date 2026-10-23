@@ -1,7 +1,7 @@
 # <Paper short title> – <N>-slide plan
 
 **Paper:** <full title>, <authors>, <venue/arXiv id>, <year>
-**Mode:** presenter | adversary | balanced (see references/modes.md)
+**Mode:** champion | adversary | presenter (see references/modes.md)
 **Reference deck:** <template .pptx used for style, or "house style">
 **Palette:** <name hex> · <name hex> · … (one line)
 
@@ -10,7 +10,7 @@
 **Methodology:** <numbered pipeline, 3–6 steps, key parameters inline>
 **Findings:** <table: metric | value | denominator/context>
 **Implications:** <3–5 sentences, including limitations the paper admits>
-(adversary / balanced: add **Claim ledger:** claim | evidence | bridging assumption | champion reading | adversary challenge | severity)
+(adversary / presenter: add **Claim ledger:** claim | evidence | bridging assumption | champion reading | adversary challenge | severity)
 
 ## 2. Outline
 | # | Sentence | Visual type | Badge / RQ |
@@ -38,7 +38,7 @@ Visual: <composition left/centre/right; stat callouts; native chart vs shapes; n
 Animation: <click 1 …; click 2 …> — only effects the build can write into the file:
   Appear · Fade · Wipe from top/bottom/left/right · Fly In from top/bottom/left/right · Zoom · Pulse.
   Name objects as the build will name them (slug, "stat 42%", "table-main-results" …).
-Notes: <talking line; adversary/balanced also carry the likely rebuttal and your answer>
+Notes: <talking line; adversary/presenter also carry the likely rebuttal and your answer>
 
 (repeat for every slide)
 
