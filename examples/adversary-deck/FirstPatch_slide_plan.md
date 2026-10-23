@@ -171,4 +171,4 @@ Symbolic icons
 Deck: FirstPatch_adversary.final.pptx (build with build.js, then scripts/postprocess.py) · Plan JSON: FirstPatch_adversary.plan.json
 Renderer used for QA: keynote (charts not shown; verified from XML) and powerpoint (first pass)
 QA fixes: table headers shortened to avoid mid-word wraps; chart labels given decimals; strike line limited to data cells; slide-8 label and sapling repositioned twice; slide-6 red ✗ moved off the stamp ring
-Assets still placeholders: none (17 assets cropped from icon-sheet.webp with crop_sheet.py --split 6:639 --combine 2,3=thr-internal --keep-bg hero-door)
+Assets still placeholders: pt-holds, char-employee, hero-door, icon-stamp-accepted, icon-gfi-tag, icon-bug, icon-sapling, icon-review-loop, jar-newcomers, jar-nonnewcomers (the asset set was replaced by seven icons in the house style; thr-* and char-maintainer resolve through manifest aliases)

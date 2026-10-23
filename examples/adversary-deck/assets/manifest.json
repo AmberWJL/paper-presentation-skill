@@ -1,87 +1,61 @@
 {
- "pt-holds": {
-  "file": "pt-holds.png",
-  "w": 234,
-  "h": 274
+ "icon-seesaw-question": {
+  "file": "icon-seesaw-question.png",
+  "w": 492,
+  "h": 512
  },
- "thr-construct": {
-  "file": "thr-construct.png",
-  "w": 298,
-  "h": 269
+ "icon-doc-alert": {
+  "file": "icon-doc-alert.png",
+  "w": 336,
+  "h": 496
  },
- "thr-internal": {
-  "file": "thr-internal.png",
-  "w": 355,
-  "h": 250
- },
- "jar-newcomers": {
-  "file": "jar-newcomers.png",
-  "w": 176,
-  "h": 250
- },
- "jar-nonnewcomers": {
-  "file": "jar-nonnewcomers.png",
-  "w": 176,
-  "h": 250
- },
- "thr-conclusion": {
-  "file": "thr-conclusion.png",
-  "w": 260,
-  "h": 265
- },
- "pt-experiment": {
-  "file": "pt-experiment.png",
-  "w": 203,
-  "h": 297
- },
- "hero-door": {
-  "file": "hero-door.png",
-  "w": 591,
-  "h": 380
- },
- "char-newcomer": {
-  "file": "char-newcomer.png",
-  "w": 287,
-  "h": 353
- },
- "char-maintainer": {
-  "file": "char-maintainer.png",
-  "w": 324,
-  "h": 355
- },
- "char-employee": {
-  "file": "char-employee.png",
-  "w": 245,
-  "h": 362
+ "icon-doc-magnifier": {
+  "file": "icon-doc-magnifier.png",
+  "w": 416,
+  "h": 512
  },
  "icon-patch": {
   "file": "icon-patch.png",
   "w": 189,
-  "h": 214
+  "h": 209
  },
- "icon-stamp-accepted": {
-  "file": "icon-stamp-accepted.png",
-  "w": 234,
-  "h": 232
+ "char-newcomer": {
+  "file": "char-newcomer.png",
+  "w": 496,
+  "h": 512
  },
- "icon-gfi-tag": {
-  "file": "icon-gfi-tag.png",
-  "w": 218,
-  "h": 235
+ "char-contributor": {
+  "file": "char-contributor.png",
+  "w": 512,
+  "h": 506
  },
- "icon-bug": {
-  "file": "icon-bug.png",
-  "w": 233,
-  "h": 221
+ "pt-experiment": {
+  "file": "pt-experiment.png",
+  "w": 201,
+  "h": 291
  },
- "icon-sapling": {
-  "file": "icon-sapling.png",
-  "w": 196,
-  "h": 207
+ "thr-conclusion": {
+  "file": "icon-seesaw-question.png",
+  "w": 492,
+  "h": 512,
+  "alias_of": "icon-seesaw-question"
  },
- "icon-review-loop": {
-  "file": "icon-review-loop.png",
-  "w": 263,
-  "h": 234
+ "thr-construct": {
+  "file": "icon-doc-alert.png",
+  "w": 336,
+  "h": 496,
+  "alias_of": "icon-doc-alert"
+ },
+ "thr-internal": {
+  "file": "icon-doc-magnifier.png",
+  "w": 416,
+  "h": 512,
+  "alias_of": "icon-doc-magnifier"
+ },
+ "char-maintainer": {
+  "file": "char-contributor.png",
+  "w": 512,
+  "h": 506,
+  "alias_of": "char-contributor"
  }
 }

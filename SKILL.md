@@ -71,9 +71,9 @@ shapes), icon slugs, **animation as a click sequence using only the effects the 
 and presenter modes also the likely rebuttal and your answer).
 
 Asset strategy: aim for **15–20 generated images**, shared across slides, listed in a reuse table.
-Everything geometric is a native shape. Image prompts (section 8): two shared style suffixes, one subject
-line per slug, "no text, no letters", and the instruction to generate **one sheet in reading order** so
-`crop_sheet.py` can split it.
+Everything geometric is a native shape. Image prompts (section 8): copy the two style suffixes from
+`references/visual-style.md` (icon and character), then one subject line per slug, and the instruction to
+generate **one sheet in reading order** so `crop_sheet.py` can split it.
 
 Save as `<PaperShortName>_slide_plan.md` in the working directory and summarize in chat. End with:
 "Reply with changes (or 'go') and I'll build the deck."
