@@ -1,6 +1,6 @@
 ---
 name: paper-presentation
-description: Turn an academic paper (PDF or arXiv link) into a visual-first seminar talk and build the .pptx — one sentence per slide, no bullets, icon rows instead of lists, Morph transitions between points, click-by-click entrance animations written into the file, native charts/tables, speaker notes. Three modes - presenter (walk the room through the paper), adversary (argue the reject case after the champions), balanced (champion and adversary on the same claims) - each with its own slide arc and analysis prompt. Use this whenever the user asks to present a paper, make slides from a paper, prepare a paper talk or reading-group/seminar deck (CS846, CS886 or any course), says they are the champion/adversary/critic/reviewer for a paper, or wants figure/icon prompts for a paper deck — even if they only say "read this paper and brainstorm slides" or "I'm presenting this next week". Not for reviewing a paper without slides (use paper-review) or for generic decks.
+description: Turn an academic paper (PDF or arXiv link) into a visual-first seminar talk and build the .pptx — one sentence per slide, no bullets, icon rows instead of lists, Morph transitions between points, click-by-click entrance animations written into the file, native charts/tables, speaker notes. Three modes - presenter (walk the room through the paper), adversary (argue the reject case after the champions), balanced (champion and adversary on the same claims) - each with its own slide arc and analysis prompt. Use this whenever the user asks to present a paper, make slides from a paper, prepare a paper talk or reading-group/seminar deck for any course, says they are the champion/adversary/critic/reviewer for a paper, or wants figure/icon prompts for a paper deck — even if they only say "read this paper and brainstorm slides" or "I'm presenting this next week". Not for reviewing a paper without slides (use paper-review) or for generic decks.
 ---
 
 # Paper → slide plan → built deck
@@ -80,7 +80,7 @@ Save as `<PaperShortName>_slide_plan.md` in the working directory and summarize 
 ## Stage 4 — Build the deck (after gate 2)
 
 1. **Write `build.js`** next to the plan, using `scripts/deck_lib.js`. Start from
-   `examples/firstpatch-adversary/build.js`; keep one block per slide in plan order. The library gives you
+   `examples/adversary-deck/build.js`; keep one block per slide in plan order. The library gives you
    layouts (`TITLE`, `CONTENT`, `DIVIDER`), `title`, `label`, `big` (stat callout), `box`, `textBox`,
    `arrow`, `line`, `img` (picture if the slug is in the assets manifest, else a labelled dashed
    placeholder), `table` with `hdr/ok/bad/ns` cells, `barChart` with house defaults, `note`, and the
@@ -119,7 +119,7 @@ python3 scripts/crop_sheet.py sheet.png assets/ --names a,b,c,...      # name bl
        [--split IDX:X] [--combine i,j=slug] [--keep-bg hero-slug] [--min-gap 8]
 ```
 Look at `_contact.jpg` to map indices to slugs; use `--split` when two icons touched, `--combine` to also
-save a pair as one asset (two jars → one "internal validity" icon), `--keep-bg` for scenes that should
+save a pair as one asset (two related icons → one combined icon), `--keep-bg` for scenes that should
 stay on white. Then `node build.js --assets assets/manifest.json`, post-process, re-render, and tell the
 user which slugs are still placeholders and what else they could generate.
 
@@ -145,8 +145,8 @@ user which slugs are still placeholders and what else they could generate.
   render.sh kills it after the timeout. LibreOffice is the faithful renderer if installed.
 - zsh aborts a whole command line on an unmatched glob; render.sh sets `nullglob`.
 - Re-render under a new filename prefix each time; cached images made a fixed deck look unfixed.
-- Sentences that quote numbers must be re-checked against the table they cite before the build (a
-  "strongest predictor in every model" became "in three of five" on inspection).
+- Sentences that quote numbers or superlatives ("strongest", "every", "all") must be re-checked row by row
+  against the table they cite before the build; a first draft has been wrong on exactly this.
 - Adversary talks land better when the first content slide concedes what holds and the last names the
   experiment that would change your mind.
 
@@ -155,4 +155,4 @@ user which slugs are still placeholders and what else they could generate.
 - `references/modes.md` — arcs, budgets, agenda icons, and analysis prompts per mode
 - `references/slide-plan-template.md` — the nine-section plan format
 - `references/visual-style.md` — palette, typography, motifs (edit when a new template appears)
-- `examples/firstpatch-adversary/` — complete adversary deck: build.js, plan, icon sheet, cropped assets
+- `examples/adversary-deck/` — complete adversary deck: build.js, plan, icon sheet, cropped assets

@@ -37,7 +37,7 @@ Main idea: <one line>
 Visual: <composition left/centre/right; stat callouts; native chart vs shapes; numbers from the paper; which slugs and which shapes>
 Animation: <click 1 …; click 2 …> — only effects the build can write into the file:
   Appear · Fade · Wipe from top/bottom/left/right · Fly In from top/bottom/left/right · Zoom · Pulse.
-  Name objects as the build will name them (slug, "stat 5.57×", "table-xi-flips" …).
+  Name objects as the build will name them (slug, "stat 42%", "table-main-results" …).
 Notes: <talking line; adversary/balanced also carry the likely rebuttal and your answer>
 
 (repeat for every slide)

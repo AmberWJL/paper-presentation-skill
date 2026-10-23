@@ -53,5 +53,5 @@ paper-presentation/
 │   ├── render.sh                    pptx → slide JPGs via LibreOffice → Keynote → PowerPoint
 │   ├── apply_theme.js               writes theme colours into the deck (from the pptx skill)
 │   └── package.json                 node deps
-└── examples/firstpatch-adversary/   a complete adversary deck: build.js, plan, icon sheet, cropped assets
+└── examples/adversary-deck/         a complete adversary deck: build.js, plan, icon sheet, cropped assets
 ```

@@ -1,4 +1,4 @@
-# House style (from "CS886 Paper 2.pptx", Winter 2026)
+# House style (from the user's reference deck)
 
 Layout: white background, 16:9. Title is the single sentence, top-left, ~32 pt. Slide number bottom-right. Nothing else textual except short labels inside diagrams or a one-line quote in a speech bubble.
 

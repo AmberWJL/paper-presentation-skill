@@ -7,7 +7,7 @@
  *   const s = d.slide();                      // CONTENT layout
  *   d.title(s, "One sentence.");
  *   d.img(s, "icon-bug", 1, 2, 1, 1);         // picture if the slug is in the manifest, else a labelled placeholder
- *   d.anim(s, [[["stat-7-8", "zoom"]], [["icon-bug", "fade"], ["lbl", "wipe", "bottom"]]]);   // clicks
+ *   d.anim(s, [[["stat-main", "zoom"]], [["icon-bug", "fade"], ["lbl", "wipe", "bottom"]]]);   // clicks
  *   await d.finalize({ morph: [3,4,5], fade: [2] });
  *   // then: python3 <skill>/scripts/postprocess.py Paper_deck.pptx --plan Paper_deck.plan.json -o Paper_deck.final.pptx
  *
